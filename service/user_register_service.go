@@ -7,10 +7,14 @@ import (
 
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
-	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
+	Name            string `form:"name" json:"name" `
 	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
 	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
 	PasswordConfirm string `form:"password_confirm" json:"password_confirm" binding:"required,min=8,max=40"`
+	Grade           string `form:"grade" json:"grade" binding:"required,min=2,max=30"`
+	Classes         string `form:"classes" json:"classes" binding:"required,min=2,max=30"`
+	Dept            string `form:"dept" json:"dept" `
+	Level           int    `form:"evel" json:"level" `
 }
 
 // valid 验证表单
@@ -23,11 +27,11 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count := 0
-	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
+	model.DB.Model(&model.User{}).Where("nickname = ?", service.Name).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
-			Msg:  "昵称被占用",
+			Msg:  "该姓名账户已存在",
 		}
 	}
 
@@ -46,9 +50,13 @@ func (service *UserRegisterService) valid() *serializer.Response {
 // Register 用户注册
 func (service *UserRegisterService) Register() serializer.Response {
 	user := model.User{
-		Nickname: service.Nickname,
+		Name:     service.Name,
 		UserName: service.UserName,
 		Status:   model.Active,
+		Grade:    service.Grade,
+		Classes:  service.Classes,
+		Dept:     service.Dept,
+		Level:    service.Level,
 	}
 
 	// 表单验证

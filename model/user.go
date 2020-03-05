@@ -10,9 +10,13 @@ type User struct {
 	gorm.Model
 	UserName       string
 	PasswordDigest string
-	Nickname       string
+	Name           string
+	Grade          string //年级
+	Classes        string //班级
+	Dept           string //部门
+	Level          int    //职位
 	Status         string
-	Avatar         string `gorm:"size:1000"`
+	Avatar         string
 }
 
 const (
@@ -47,4 +51,14 @@ func (user *User) SetPassword(password string) error {
 func (user *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.PasswordDigest), []byte(password))
 	return err == nil
+}
+
+// ChangePassword 修改密码
+func (user *User) ChangePassword(password string) error {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), PassWordCost)
+	if err != nil {
+		return err
+	}
+	user.PasswordDigest = string(bytes)
+	return nil
 }

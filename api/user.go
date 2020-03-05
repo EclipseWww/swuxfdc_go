@@ -30,6 +30,17 @@ func UserLogin(c *gin.Context) {
 	}
 }
 
+// UserChange 用户注册接口
+func UserChange(c *gin.Context) {
+	var service service.UserChangeService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Change(c)
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+	}
+}
+
 // UserMe 用户详情
 func UserMe(c *gin.Context) {
 	user := CurrentUser(c)
