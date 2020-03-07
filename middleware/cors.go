@@ -24,7 +24,7 @@ func Cors() gin.HandlerFunc {
 			if regexp.MustCompile(`^http://localhost\.0\.0\.1:\d+$`).MatchString(origin) {
 				return true
 			}
-			return false
+			return true
 		}
 	}
 	config.AllowCredentials = true

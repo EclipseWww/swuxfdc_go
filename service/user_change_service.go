@@ -10,9 +10,9 @@ import (
 // UserChangeService 管理用户密码修改的服务
 type UserChangeService struct {
 	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
-	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
-	PasswordNew     string `form:"password_new" json:"password_new" binding:"required,min=8,max=40"`
-	PasswordConfirm string `form:"password_confirm" json:"password_confirm" binding:"required,min=8,max=40"`
+	Password        string `form:"password" json:"password" binding:"required,min=6,max=40"`
+	PasswordNew     string `form:"password_new" json:"password_new" binding:"required,min=6,max=40"`
+	PasswordConfirm string `form:"password_confirm" json:"password_confirm" binding:"required,min=6,max=40"`
 }
 
 // Change 用户密码修改函数

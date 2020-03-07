@@ -37,9 +37,15 @@ func NewRouter() *gin.Engine {
 		{
 			// User Routing
 			auth.GET("user/me", api.UserMe)
-			auth.POST("kq/upload", api.UploadKq)
 			auth.DELETE("user/logout", api.UserLogout)
+			//Kq Routing
+			auth.POST("kq/create", api.CreateKq)
+			auth.DELETE("kq/:id", api.DeleteKq)
+			auth.GET("kqs", api.ListKq)
+
+			auth.GET("getToken", api.GetToken)
 		}
+
 	}
 	return r
 }

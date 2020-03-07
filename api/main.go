@@ -8,6 +8,8 @@ import (
 	"swuxfdc/serializer"
 
 	"github.com/gin-gonic/gin"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
 	validator "gopkg.in/go-playground/validator.v8"
 )
 
@@ -46,4 +48,20 @@ func ErrorResponse(err error) serializer.Response {
 	}
 
 	return serializer.ParamErr("参数错误", err)
+}
+
+// GetToken 获取上传凭证
+func GetToken(c *gin.Context) {
+	accessKey := "xeKpGmq9nqYuzuDIKKd2Lk-4Y1q0B0z7GCAn5tXa"
+	secretKey := "F63dqWX8YZC2nfl7O7ucBLtoizdgeV7qsTIB7ftB"
+	bucket := "eclipsewww"
+	putPolicy := storage.PutPolicy{
+		Scope: bucket,
+	}
+	mac := qbox.NewMac(accessKey, secretKey)
+	upToken := putPolicy.UploadToken(mac)
+	c.JSON(200, serializer.Response{
+		Code: 0,
+		Data: upToken,
+	})
 }

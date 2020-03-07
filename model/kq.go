@@ -10,6 +10,7 @@ type Kq struct {
 	Grade   string //年级
 	Classes string //班级
 	Week    int    //第几周
-	Day     int    //星期几
+	Day     string //星期几
 	KqURL   string //图片链接
+	Author  string //作者
 }

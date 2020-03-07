@@ -10,18 +10,19 @@ type UploadKqService struct {
 	Grade   string `form:"grade" json:"grade" binding:"required"`     //年级
 	Classes string `form:"classes" json:"classes" binding:"required"` //班级
 	Week    int    `form:"week" json:"week" binding:"required"`       //第几周
-	Day     int    `form:"day" json:"day" binding:"required"`         //星期几
+	Day     string `form:"day" json:"day" binding:"required"`         //星期几
 	KqURL   string `form:"kq_URL" json:"kq_URL" binding:"required"`   //图片链接
 }
 
 // Upload 考勤表上传
-func (service *UploadKqService) Upload() serializer.Response {
+func (service *UploadKqService) Upload(name string) serializer.Response {
 	kq := model.Kq{
 		Grade:   service.Grade,
 		Classes: service.Classes,
 		KqURL:   service.KqURL,
 		Week:    service.Week,
 		Day:     service.Day,
+		Author:  name,
 	}
 
 	err := model.DB.Create(&kq).Error
